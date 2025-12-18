@@ -26,7 +26,7 @@ def process_feed(feed, lines, stop_prefix, now):
             diff_secs = stu.arrival.time - now
             diff_mins = diff_secs // 60
 
-            if diff_mins <= 3 or diff_mins >= 40:
+            if diff_mins <= 5 or diff_mins >= 45:
                 continue
 
             entry = (route, diff_mins)
@@ -81,7 +81,7 @@ def get_all_arrivals(feed_urls, lines, stop, num_arrivals=3):
 #     "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm",
 # ]
 
-# queens_arrivals, manhattan_arrivals = get_all_arrivals(
+# manhattan_arrivals, queens_arrivals = get_all_arrivals(
 #     feed_list, lines_of_interest, stop_of_interest, num_arrivals
 # )
 

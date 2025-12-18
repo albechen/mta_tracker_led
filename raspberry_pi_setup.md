@@ -105,4 +105,8 @@ cd ~/mta_tracker_led
 git pull
 
 # to run it
+cd mta_tracker_led
 sudo python main.py
+
+## CONNECT
+ssh trackthemta@trackthemta

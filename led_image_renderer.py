@@ -60,13 +60,11 @@ def draw_icon(image, x, y, line, size, large=False):
 # Minute color logic
 # =================================================
 def minute_color(mins):
-    if mins < 6:
-        return (255, 120, 120)
-    if mins < 8:
-        return (255, 170, 90)
-    if mins < 10:
-        return (255, 230, 120)
-    return (160, 255, 160)
+    if mins <= 6:
+        return (255, 90, 90)  # red
+    if mins <= 9:
+        return (255, 230, 120)  # yellow
+    return (120, 255, 120)  # green
 
 
 # =================================================

@@ -71,26 +71,26 @@ def get_all_arrivals(feed_urls, lines, stop, num_arrivals=3):
 #### EXAMPLE #####
 ####################
 
-lines_of_interest = ["R", "E", "F", "M"]
-stop_of_interest = "G19"
-num_arrivals = 3
+# lines_of_interest = ["R", "E", "F", "M"]
+# stop_of_interest = "G19"
+# num_arrivals = 3
 
-feed_list = [
-    "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw",
-    "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace",
-    "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm",
-]
+# feed_list = [
+#     "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-nqrw",
+#     "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-ace",
+#     "https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct%2Fgtfs-bdfm",
+# ]
 
-queens_arrivals, manhattan_arrivals = get_all_arrivals(
-    feed_list, lines_of_interest, stop_of_interest, num_arrivals
-)
+# queens_arrivals, manhattan_arrivals = get_all_arrivals(
+#     feed_list, lines_of_interest, stop_of_interest, num_arrivals
+# )
 
-print("Queens next arrivals:")
-for r in queens_arrivals:
-    print(r)
+# print("Queens next arrivals:")
+# for r in queens_arrivals:
+#     print(r)
 
-print("\nManhattan next arrivals:")
-for r in manhattan_arrivals:
-    print(r)
+# print("\nManhattan next arrivals:")
+# for r in manhattan_arrivals:
+#     print(r)
 
 # %%

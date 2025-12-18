@@ -208,5 +208,5 @@ def get_latest_arrivals():
     draw_pixel_grid_image(image)
 
 
-get_latest_arrivals()
+# get_latest_arrivals()
 # %%

@@ -86,26 +86,23 @@ Ctrl+X **to exit**
 sudo python3 ~/test_led.py
 
 
-### DOWNLOAD LIBRARIES IN VENV ###
+### DOWNLOAD LIBRARIES ###
 
-sudo apt update
-sudo apt install -y python3 python3-pip python3-venv python3-dev
-
-python3 -m venv venv
-
-# active venv
-
-source venv/bin/activate
-** should see (venv) pi@raspberrypi:~ $ **
-
-pip install --upgrade pip setuptools wheel
-pip install requests pillow gtfs-realtime-bindings
+sudo python3 -m pip install requests pillow gtfs-realtime-bindings --break-system-packages
 
 python -c "import requests; print('requests OK')"
 python -c "from google.transit import gtfs_realtime_pb2; print('gtfs OK')"
 
-
 ### HOW TO RUN PROJECT ###
 
-source venv/bin/activate
+# to intially clone on pi
+git clone https://github.com/albechen/mta_tracker_led
+cd mta_tracker_led
+
+
+# to pull new version on pi
+cd ~/mta_tracker_led
+git pull
+
+# to run it
 sudo python main.py

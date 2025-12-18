@@ -63,7 +63,7 @@ def minute_color(mins):
     if mins <= 6:
         return (255, 90, 90)  # red
     if mins <= 9:
-        return (255, 230, 120)  # yellow
+        return (255, 130, 80)  # orange
     return (120, 255, 120)  # green
 
 

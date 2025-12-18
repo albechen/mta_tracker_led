@@ -23,10 +23,7 @@ FEEDS = [
 REFRESH_SECONDS = 20
 
 # Placeholder used if nothing has ever loaded
-LAST_GOOD = (
-    [("E", 99)] * NUM_TRAINS,
-    [("E", 99)] * NUM_TRAINS,
-)
+LAST_GOOD = ([("error", "-")] * NUM_TRAINS,)
 
 # manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
 # image = render_image(manhattan, queens)

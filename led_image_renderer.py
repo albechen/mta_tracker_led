@@ -60,6 +60,8 @@ def draw_icon(image, x, y, line, size, large=False):
 # Minute color logic
 # =================================================
 def minute_color(mins):
+    if mins == "-":
+        return (255, 0, 0)
     if mins <= 6:
         return (255, 90, 90)  # red
     if mins <= 9:
@@ -126,7 +128,7 @@ def draw_train_small(image, draw, x, y, line, mins):
 # =================================================
 # Side renderer (64x32)
 # =================================================
-PLACEHOLDER = ("E", 99)
+PLACEHOLDER = ("error", "-")
 
 
 def draw_side(image, draw, x_offset, label, trains):
@@ -173,6 +175,11 @@ def render_image(manhattan, queens):
     return image
 
 
+# -------------------------------------------------
+# TEST PIXEL LAYOUT USING STATIC DATA
+# -------------------------------------------------
+
+
 def draw_pixel_grid_image(image):
     orig_width, orig_height = image.size
     zoom = 2  # each pixel becomes 2x2 with 1 black pixel in between
@@ -195,15 +202,13 @@ def draw_pixel_grid_image(image):
     grid_image.save("test_grid.png")
 
 
-# -------------------------------------------------
-# TEST PIXEL LAYOUT USING STATIC DATA
-# -------------------------------------------------
-def get_latest_arrivals():
-    manhattan = [("E", 5), ("R", 9), ("M", 11)]
-    queens = [("R", 19), ("E", 10), ("F", 49)]
+# def get_latest_arrivals():
+#     manhattan = [("E", 5), ("R", 9), ("M", 11)]
+#     # manhattan = []
+#     queens = [("R", 19), ("E", 10), ("F", 49)]
 
-    image = render_image(manhattan, queens)
-    draw_pixel_grid_image(image)
+#     image = render_image(manhattan, queens)
+#     draw_pixel_grid_image(image)
 
 
 # get_latest_arrivals()

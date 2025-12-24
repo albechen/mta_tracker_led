@@ -64,11 +64,12 @@ def main():
             try:
                 manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
                 last_good = (manhattan, queens)
+                print(last_good)
 
             except Exception:
                 print("⚠️  MTA fetch error:")
                 traceback.print_exc()
-                manhattan, queens = last_good
+                manhattan, queens = LAST_GOOD  # last_good
 
             # Only redraw if data changed
             current = (tuple(manhattan), tuple(queens))

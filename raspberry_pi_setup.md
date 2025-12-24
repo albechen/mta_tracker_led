@@ -1,9 +1,15 @@
-### RASPBERRY PI IMAGER ###
+# RASPBERRY PI SETUP
+
+## INTIAL SET UP
+
+### RASPBERRY PI IMAGER
+
 FONTS: https://www.cl.cam.ac.uk/~mgk25/ucs-fonts.html
 imager to 64bit and bookworm version
 PYTHON 3.11 recc
 
-### SET UP RASPBERRY PI ###
+### UPDATE AND CONFIGURE
+
 sudo apt update && sudo apt full-upgrade -y
 sudo raspi-config - vnc on
 
@@ -16,35 +22,41 @@ Ctrl+X **to exit**
 
 sudo reboot
 
-### INSTALL RPI-RGB-LED-MATRIX ###
+## INSTALL LED SPECIFIC LIBRARIES
+
+### INSTALL RPI-RGB-LED-MATRIX
+
 git clone https://github.com/hzeller/rpi-rgb-led-matrix
 cd rpi-rgb-led-matrix
 make
 pip install . --break-system-packages
 
+### INSTALL PYTHON BINDINGS
 
-### INSTALL PYTHON BINDINGS ###
 cd bindings/python
 sudo apt-get update && sudo apt-get install python3-dev cython3 -y
 make build-python
 sudo make install-python
 
-### TESTING CASES ###
+## TEST CASES
 
-# check if python bindings installed
+### check if python bindings installed
+
 python3 - << 'EOF'
 from rgbmatrix import RGBMatrix
 print("OK")
 EOF
 
-# check c++ demo
+### check c++ demo
+
 cd ~/rpi-rgb-led-matrix/examples-api-use
 sudo ./demo -D0 --led-rows=32 --led-cols=64 --led-gpio-mapping=adafruit-hat
 
+### CREATE TEST CASE CHECK EACH PIXEL
 
-### CREATE TEST CASE CHECK EACH PIXEL ###
 nano ~/test_led.py
 
+```bash
 #!/usr/bin/env python3
 
 import time
@@ -78,35 +90,37 @@ try:
         time.sleep(2)
 finally:
     matrix.Clear()
-
+```
 
 Ctrl+O **to write**
 Ctrl+X **to exit**
 
 sudo python3 ~/test_led.py
 
-
-### DOWNLOAD LIBRARIES ###
+## DOWNLOAD LIBRARIES SPECIFIC
 
 sudo python3 -m pip install requests pillow gtfs-realtime-bindings --break-system-packages
 
 python -c "import requests; print('requests OK')"
 python -c "from google.transit import gtfs_realtime_pb2; print('gtfs OK')"
 
-### HOW TO RUN PROJECT ###
+## HOW TO RUN PROJECT
 
-# to intially clone on pi
+### to intially clone on pi
+
 git clone https://github.com/albechen/mta_tracker_led
 cd mta_tracker_led
 
+### to pull new version on pi
 
-# to pull new version on pi
 cd ~/mta_tracker_led
 git pull
 
-# to run it
+### to run it
+
 cd mta_tracker_led
 sudo python main.py
 
-## CONNECT
+### CONNECT
+
 ssh trackthemta@trackthemta

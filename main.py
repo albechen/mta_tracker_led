@@ -42,10 +42,10 @@ def init_matrix():
     options.hardware_mapping = "adafruit-hat-pwm"
 
     # ⭐ Important performance / flicker settings
-    options.brightness = 50  # 0–100
-    options.pwm_bits = 11  # lower = faster
-    options.pwm_lsb_nanoseconds = 130
-    options.limit_refresh_rate_hz = 200
+    # options.brightness = 50  # 0–100
+    # options.pwm_bits = 11  # lower = faster
+    # options.pwm_lsb_nanoseconds = 130
+    # options.limit_refresh_rate_hz = 200
 
     return RGBMatrix(options=options)
 

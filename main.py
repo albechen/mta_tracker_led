@@ -42,7 +42,7 @@ def init_matrix():
     options.hardware_mapping = "adafruit-hat-pwm"
 
     # ⭐ Important performance / flicker settings
-    options.brightness = 50  # 0–100
+    options.brightness = 20  # 0–100
     options.pwm_bits = 11  # lower = faster
     options.pwm_lsb_nanoseconds = 130
     options.limit_refresh_rate_hz = 200
@@ -64,7 +64,7 @@ def main():
             try:
                 manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
                 last_good = (manhattan, queens)
-                print(last_good)
+                print(last_good, flush=True)
 
             except Exception:
                 print("⚠️  MTA fetch error:")

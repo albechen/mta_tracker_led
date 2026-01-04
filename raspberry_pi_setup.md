@@ -151,6 +151,11 @@ cd mta_tracker_led
 ```bash
 cd ~/mta_tracker_led
 git pull
+
+
+sudo systemctl stop ledmatrix.service
+git pull
+sudo systemctl start ledmatrix.service
 ```
 
 ### to run it
@@ -235,10 +240,10 @@ Save: CTRL+O → Enter → CTRL+X
 
 ``` ini
 [Unit]
-Description=Start LED Matrix at 08:00
+Description=Start LED Matrix at 07:00
 
 [Timer]
-OnCalendar=*-*-* 08:00:00
+OnCalendar=*-*-* 07:00:00
 Persistent=true
 Unit=ledmatrix.service
 
@@ -256,10 +261,10 @@ Save: CTRL+O → Enter → CTRL+X
 
 ``` ini
 [Unit]
-Description=Stop LED Matrix at 22:00
+Description=Stop LED Matrix at 00:00
 
 [Timer]
-OnCalendar=*-*-* 22:00:00
+OnCalendar=*-*-* 00:00:00
 Persistent=true
 Unit=ledmatrix-stop.service
 
@@ -289,6 +294,10 @@ sudo reboot
 ### Check print / Stop / disable
 
 Stream of print statments:
+
+```bash
+sudo systemctl status ledmatrix.service
+```
 
 ```bash
 sudo journalctl -u ledmatrix.service -f

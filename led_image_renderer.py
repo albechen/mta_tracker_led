@@ -62,7 +62,7 @@ def draw_icon(image, x, y, line, size, large=False):
 def minute_color(mins):
     if mins == "-":
         return (255, 0, 0)
-    if mins <= 6:
+    if mins <= 7:
         return (255, 90, 90)  # red
     if mins <= 9:
         return (255, 130, 80)  # orange

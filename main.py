@@ -41,7 +41,7 @@ def init_matrix():
     options.parallel = 1
     options.hardware_mapping = "adafruit-hat-pwm"
 
-    # ⭐ Important performance / flicker settings
+    # performance / flicker settings
     options.brightness = 20  # 0–100
     options.pwm_bits = 11  # lower = faster
     options.pwm_lsb_nanoseconds = 130

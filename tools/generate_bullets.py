@@ -79,8 +79,8 @@ LINES = ["R", "E", "M", "F"]
 BULLET_LARGE_SIZE = 16
 BULLET_SMALL_SIZE = 10
 
-ICON_DIR_LARGE = "icons/large_bullet"
-ICON_DIR_SMALL = "icons/small_bullet"
+ICON_DIR_LARGE = "assets/icons/large_bullet"
+ICON_DIR_SMALL = "assets/icons/small_bullet"
 
 os.makedirs(ICON_DIR_LARGE, exist_ok=True)
 os.makedirs(ICON_DIR_SMALL, exist_ok=True)
@@ -99,8 +99,8 @@ LINE_TXT_COLORS = {
     "F": (255, 255, 255),
 }
 
-FONT_SMALL_BULLET = ImageFont.load("fonts/pil/5x8.pil")
-FONT_LARGE_BULLET = ImageFont.load("fonts/pil/7x14B.pil")
+FONT_SMALL_BULLET = ImageFont.load("assets/fonts/pil/5x8.pil")
+FONT_LARGE_BULLET = ImageFont.load("assets/fonts/pil/7x14B.pil")
 
 
 # -------------------------------------------------

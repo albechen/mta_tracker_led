@@ -154,6 +154,7 @@ git pull
 
 
 sudo systemctl stop ledmatrix.service
+cd ~/mta_tracker_led
 git pull
 sudo systemctl start ledmatrix.service
 ```

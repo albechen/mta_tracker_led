@@ -43,11 +43,11 @@ sudo nano /boot/firmware/config.txt dtparam=audio=off
 
 ## INSTALL LED SPECIFIC LIBRARIES
 
-### INSTALL RPI-RGB-mta_tracker_led
+### INSTALL RPI-RGB-led-matrix
 
 ```bash
-git clone https://github.com/hzeller/rpi-rgb-mta_tracker_led
-cd rpi-rgb-mta_tracker_led
+git clone https://github.com/hzeller/rpi-rgb-led-matrix
+cd rpi-rgb-led-matrix
 make
 pip install . --break-system-packages
 ```
@@ -75,7 +75,7 @@ EOF
 ### check c++ demo
 
 ```bash
-cd ~/rpi-rgb-mta_tracker_led/examples-api-use
+cd ~/rpi-rgb-led-matrix/examples-api-use
 sudo ./demo -D0 --led-rows=32 --led-cols=64 --led-gpio-mapping=adafruit-hat
 ```
 
@@ -143,6 +143,8 @@ python -c "from google.transit import gtfs_realtime_pb2; print('gtfs OK')"
 
 ```bash
 git clone https://github.com/albechen/mta_tracker_led
+sudo chown -R root:root /home/trackthemta/mta_tracker_led
+sudo chmod -R 777 /home/trackthemta/mta_tracker_led/assets/led_matrix_render
 cd mta_tracker_led
 ```
 
@@ -152,10 +154,9 @@ cd mta_tracker_led
 cd ~/mta_tracker_led
 git pull
 
-
 sudo systemctl stop ledmatrix.service
 cd ~/mta_tracker_led
-git pull
+sudo git pull
 sudo systemctl start ledmatrix.service
 ```
 
@@ -318,6 +319,3 @@ Stop or diable
 sudo systemctl stop ledmatrix.service
 sudo systemctl disable ledmatrix.service
 ```
-
-
-<!-- sudo chown -R root:root /home/trackthemta/mta_tracker_led -->

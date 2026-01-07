@@ -3,3 +3,6 @@ __pycache__/
 .vscode/
 *.pyc
 *.log
+
+# Ignore pre-render PNG files in led_matrix_render
+/assets/led_matrix_render/pre_render_*.png

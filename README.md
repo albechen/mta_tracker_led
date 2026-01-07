@@ -198,6 +198,9 @@ Save: CTRL+O → Enter → CTRL+X
 Description=MTA Tracker LED Matrix Python
 After=network.target
 
+StartLimitBurst=30
+StartLimitIntervalSec=630
+
 [Service]
 ExecStart=/usr/bin/python3 /home/trackthemta/mta_tracker_led/main.py
 WorkingDirectory=/home/trackthemta/mta_tracker_led
@@ -205,8 +208,7 @@ StandardOutput=journal
 StandardError=journal
 Restart=always
 RestartSec=5
-StartLimitBurst=30
-StartLimitIntervalSec=630
+
 User=root
 
 # Allow hardware access

@@ -310,3 +310,6 @@ Stop or diable
 sudo systemctl stop ledmatrix.service
 sudo systemctl disable ledmatrix.service
 ```
+
+
+<!-- sudo chown -R root:root /home/trackthemta/mta_tracker_led -->

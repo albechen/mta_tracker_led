@@ -200,9 +200,12 @@ After=network.target
 [Service]
 ExecStart=/usr/bin/python3 /home/trackthemta/mta_tracker_led/main.py
 WorkingDirectory=/home/trackthemta/mta_tracker_led
-StandardOutput=inherit
-StandardError=inherit
+StandardOutput=journal
+StandardError=journal
 Restart=always
+RestartSec=5
+StartLimitBurst=30
+StartLimitIntervalSec=630
 User=root
 
 # Allow hardware access
@@ -297,11 +300,16 @@ sudo reboot
 Stream of print statments:
 
 ```bash
+journalctl -u ledmatrix.service
 sudo systemctl status ledmatrix.service
+sudo journalctl -u ledmatrix.service -f
 ```
 
+restart
+
 ```bash
-sudo journalctl -u ledmatrix.service -f
+sudo systemctl daemon-reload
+sudo systemctl restart ledmatrix.service
 ```
 
 Stop or diable

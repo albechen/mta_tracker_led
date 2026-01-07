@@ -104,8 +104,6 @@ def create_pre_render():
     return output_path
 
 
-if __name__ == "__main__":
-    # Run pre-render when executed directly
-    create_pre_render()
+# create_pre_render()
 
 # %%

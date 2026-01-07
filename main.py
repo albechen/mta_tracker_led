@@ -10,6 +10,9 @@ from mta_arrival_fetcher import get_all_arrivals
 from led_image_renderer import render_image
 from led_image_pre_render import create_pre_render
 
+print("UID:", os.getuid())
+print("CWD:", os.getcwd())
+
 # =================================================
 # Configuration
 # =================================================

@@ -8,6 +8,7 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 
 from mta_arrival_fetcher import get_all_arrivals
 from led_image_renderer import render_image
+from led_image_pre_render import create_pre_render
 
 # =================================================
 # Configuration
@@ -75,8 +76,6 @@ def main():
                 # If pre-render doesn't exist, create it
                 if not os.path.exists(pre_render_path):
                     print(f"No pre-render found for {today_date}, creating...")
-
-                    from led_image_pre_render import create_pre_render
 
                     create_pre_render()
 

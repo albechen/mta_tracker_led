@@ -1,5 +1,7 @@
 # %%
 import time
+from datetime import datetime
+import os
 import traceback
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
@@ -58,9 +60,28 @@ def main():
 
     last_good = LAST_GOOD
     last_displayed = None  # used to avoid unnecessary redraws
+    last_pre_render_date = None
 
     try:
         while True:
+            # Check if we need to update the pre-render (new day)
+            today_date = datetime.now().strftime("%Y%m%d")
+
+            if today_date != last_pre_render_date:
+                pre_render_path = (
+                    f"assets/led_matrix_render/pre_render_{today_date}.png"
+                )
+
+                # If pre-render doesn't exist, create it
+                if not os.path.exists(pre_render_path):
+                    print(f"No pre-render found for {today_date}, creating...")
+
+                    from led_image_pre_render import create_pre_render
+
+                    create_pre_render()
+
+                    last_pre_render_date = today_date
+
             try:
                 manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
                 last_good = (manhattan, queens)
@@ -71,10 +92,10 @@ def main():
                 traceback.print_exc()
                 manhattan, queens = LAST_GOOD  # last_good
 
-            # Only redraw if data changed
+            # Only redraw if data changed OR pre-render changed
             current = (tuple(manhattan), tuple(queens))
             if current != last_displayed:
-                image = render_image(manhattan, queens)
+                image = render_image(manhattan, queens, pre_render_path)
                 matrix.SetImage(image)
                 last_displayed = current
 

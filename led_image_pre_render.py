@@ -81,7 +81,7 @@ def create_pre_render():
         draw.text((weather_x, label_y), placeholder_text, (255, 130, 0), FONT_TINY)
 
     # 3. Save to file
-    output_dir = "assets/led_matrx_render"
+    output_dir = "assets/led_matrix_render"
     os.makedirs(output_dir, exist_ok=True)
 
     # Delete old pre-render files

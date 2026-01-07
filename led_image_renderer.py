@@ -1,7 +1,6 @@
 # %%
+
 from PIL import Image, ImageDraw, ImageFont
-from datetime import datetime
-import os
 
 # =================================================
 # Canvas
@@ -163,34 +162,24 @@ def draw_side(image, draw, x_offset, label, trains):
 # =================================================
 # Image renderer
 # =================================================
-def render_image(manhattan, queens):
+def render_image(manhattan, queens, pre_render_path):
     """
     Renders the full 128x32 LED matrix image.
+    Uses a pre-render if provided, otherwise creates a new base image.
     """
-    today_date = datetime.now().strftime("%Y%m%d")
-    pre_render_path = f"assets/led_matrx_render/pre_render_{today_date}.png"
-
-    # If pre-render doesn't exist, create it
-    if not os.path.exists(pre_render_path):
-        print(f"No pre-render found for {today_date}, creating...")
-        from led_image_pre_render import create_pre_render
-
-        create_pre_render()
-
-    # Load the pre-rendered image
     try:
+        # Use the provided pre-render image path
         image = Image.open(pre_render_path).convert("RGB")
-    except Exception as e:
-        print(f"Error loading pre-render: {e}")
+    except:
         # Fallback: create a new base image
         image = Image.new("RGB", (WIDTH, HEIGHT), (0, 0, 0))
         draw = ImageDraw.Draw(image)
         draw.text((0, 0), "Manhattan", (255, 255, 0), FONT_SMALL)
         draw.text((WIDTH // 2, 0), "Queens", (255, 255, 0), FONT_SMALL)
+        print(f"FAILED pre-render for today")
 
     # Create drawing context
     draw = ImageDraw.Draw(image)
-
     draw_side(image, draw, 0, "Manhattan", manhattan)
     draw_side(image, draw, WIDTH // 2, "Queens", queens)
 
@@ -220,7 +209,7 @@ def draw_pixel_grid_image(image):
             grid_pixels[gx, gy] = orig_pixels[x, y]  # original pixel
             # the extra pixel at gx+1, gy+1, etc. remain black
 
-    output_path = "assets/led_matrx_render/"
+    output_path = "assets/led_matrix_render/"
     image.save(output_path + f"test.png")
     grid_image.save(output_path + f"test_grid.png")
 

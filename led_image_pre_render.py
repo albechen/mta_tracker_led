@@ -32,10 +32,10 @@ def create_pre_render():
     label_y = 0
 
     # Draw Manhattan label (yellow)
-    draw.text((manhattan_x, label_y), "Manhattan", (255, 255, 0), FONT_SMALL)
+    draw.text((manhattan_x, label_y), "Manhattan", (255, 255, 255), FONT_SMALL)
 
     # Draw Queens label
-    draw.text((queens_x, label_y), "Queens", (255, 255, 0), FONT_SMALL)
+    draw.text((queens_x, label_y), "Queens", (255, 255, 255), FONT_SMALL)
 
     # 2. Get today's high and low temperatures
     try:
@@ -49,32 +49,37 @@ def create_pre_render():
             high = int(weather_data.get("high", "--"))
             low = int(weather_data.get("low", "--"))
 
-            # Create weather text
-            weather_text = f"{high}°/{low}°"
-            print(f"Weather text: {weather_text}")
+            high_text = f"{high}°"
+            sep_text = "/"
+            low_text = f"{low}°"
 
-            # Calculate text width using the actual font
-            # For 4x6 font, each character is approximately 4 pixels wide
-            # Let's measure it more accurately
-            text_bbox = FONT_TINY.getbbox(weather_text)
-            text_width = text_bbox[2] - text_bbox[0]  # right - left
+            # Measure widths
+            high_w = FONT_TINY.getbbox(high_text)[2]
+            sep_w = FONT_TINY.getbbox(sep_text)[2]
+            low_w = FONT_TINY.getbbox(low_text)[2]
 
-            # Anchor to the very right edge
-            # Subtract 1 pixel to account for 0-based indexing (128 width = pixels 0-127)
-            weather_x = WIDTH - text_width + 1  # Last pixel touching right edge
+            total_width = high_w + sep_w + low_w
 
-            # Alternative: if you want it perfectly flush with right edge
-            # weather_x = WIDTH - text_width  # Will leave 1 pixel gap on right
+            # Right-align the whole group
+            weather_x = WIDTH - total_width
 
-            draw.text((weather_x, label_y), weather_text, (120, 255, 120), FONT_TINY)
+            x = weather_x + 1
 
-            # Optional: Draw a debug pixel at the right edge
-            # draw.point((WIDTH-1, label_y+2), fill=(255, 0, 0))
+            # Draw high (light red)
+            draw.text((x, label_y), high_text, (255, 80, 80), FONT_TINY)
+            x += high_w
+
+            # Draw separator
+            draw.text((x, label_y), sep_text, (200, 200, 200), FONT_TINY)
+            x += sep_w
+
+            # Draw low (light blue)
+            draw.text((x, label_y), low_text, (80, 160, 255), FONT_TINY)
 
     except Exception as e:
         print(f"Error getting weather: {e}")
         # Draw placeholder if weather fails, also anchored to right
-        placeholder_text = "--|--"
+        placeholder_text = "--/--"
         text_bbox = FONT_TINY.getbbox(placeholder_text)
         text_width = text_bbox[2] - text_bbox[0]
         weather_x = WIDTH - text_width - 1
@@ -104,6 +109,6 @@ def create_pre_render():
     return output_path
 
 
-# create_pre_render()
+create_pre_render()
 
 # %%

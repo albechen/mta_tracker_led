@@ -26,7 +26,7 @@ def process_feed(feed, lines, stop_prefix, now):
             diff_secs = stu.arrival.time - now
             diff_mins = diff_secs // 60
 
-            if diff_mins <= 5 or diff_mins >= 45:
+            if diff_mins < 6 or diff_mins > 99:
                 continue
 
             entry = (route, diff_mins)

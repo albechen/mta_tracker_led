@@ -160,6 +160,13 @@ sudo git pull
 sudo systemctl start ledmatrix.service
 ```
 
+### Delete pre-render
+
+```bash
+cd ~/mta_tracker_led/assets/led_matrix_render
+rm pre_render*.png
+```
+
 ### to run it
 
 ```bash

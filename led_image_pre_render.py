@@ -11,7 +11,9 @@ FONT_SMALL = ImageFont.load("assets/fonts/pil/5x7.pil")
 FONT_TINY = ImageFont.load("assets/fonts/pil/4x6.pil")
 
 # Assuming you have a weather function in a separate module
-from get_weather_high_low import get_min_max_temp  # Adjust import as needed
+from get_weather_high_low import (
+    get_min_max_temp_from_forecast,
+)  # Adjust import as needed
 
 
 def create_pre_render():
@@ -43,7 +45,7 @@ def create_pre_render():
         # Using approximate coordinates for Queens, NY
         queens_lat, queens_lon = 40.7282, -73.7949
 
-        weather_data = get_min_max_temp(queens_lat, queens_lon)
+        weather_data = get_min_max_temp_from_forecast(queens_lat, queens_lon)
 
         if weather_data:
             high = int(weather_data.get("high", "--"))
@@ -66,7 +68,7 @@ def create_pre_render():
             x = weather_x + 1
 
             # Draw high (light red)
-            draw.text((x, label_y), high_text, (255, 80, 80), FONT_TINY)
+            draw.text((x, label_y), high_text, (255, 140, 140), FONT_TINY)
             x += high_w
 
             # Draw separator
@@ -74,7 +76,7 @@ def create_pre_render():
             x += sep_w
 
             # Draw low (light blue)
-            draw.text((x, label_y), low_text, (80, 160, 255), FONT_TINY)
+            draw.text((x, label_y), low_text, (140, 190, 255), FONT_TINY)
 
     except Exception as e:
         print(f"Error getting weather: {e}")

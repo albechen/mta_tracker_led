@@ -108,7 +108,7 @@ def main():
                 day_brightness=DAY_BRIGHTNESS,
                 gamma=GAMMA,
             )
-            print(today_ymd, last_pre_render_date, brightness, flush=True)
+            # print(brightness, flush=True)
             if brightness != last_brightness:
                 matrix.brightness = brightness
                 last_brightness = brightness

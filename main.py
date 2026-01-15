@@ -11,7 +11,7 @@ from led_image_renderer import render_image
 from led_image_pre_render import create_pre_render
 from compute_brightness_from_twilight import (
     get_twilight_epochs,
-    compute_applied_brightness,
+    compute_gamma_brightness,
 )
 
 # =================================================
@@ -100,7 +100,7 @@ def main():
 
             # update brightness if different
             epoch = int(datetime.now(timezone.utc).timestamp())
-            brightness = compute_applied_brightness(epoch, twilight_dict)
+            brightness = compute_gamma_brightness(epoch, twilight_dict)
             if brightness != last_brightness:
                 matrix.SetBrightness(brightness)
                 last_brightness = brightness

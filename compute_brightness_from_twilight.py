@@ -36,10 +36,7 @@ def get_twilight_epochs(date_str):
 
 
 def compute_brightness(
-    now_epoch,
-    twilight,
-    night_brightness=55,
-    day_brightness=70,
+    now_epoch, twilight, night_brightness=55, day_brightness=70, gamma=2.2
 ):
     nb = twilight["nautical_begin"]
     cb = twilight["civil_begin"]
@@ -48,28 +45,29 @@ def compute_brightness(
 
     # Night before nautical twilight
     if now_epoch < nb:
-        return night_brightness
+        brightness = night_brightness
 
     # Fade-in: nautical → civil
-    if nb <= now_epoch <= cb:
+    elif nb <= now_epoch <= cb:
         progress = (now_epoch - nb) / (cb - nb)
-        return night_brightness + progress * (day_brightness - night_brightness)
+        brightness = night_brightness + progress * (day_brightness - night_brightness)
 
     # Daytime
-    if cb < now_epoch < ce:
-        return day_brightness
+    elif cb < now_epoch < ce:
+        brightness = day_brightness
 
     # Fade-out: civil → nautical
-    if ce <= now_epoch <= ne:
+    elif ce <= now_epoch <= ne:
         progress = (now_epoch - ce) / (ne - ce)
-        return day_brightness - progress * (day_brightness - night_brightness)
+        brightness = day_brightness - progress * (day_brightness - night_brightness)
 
     # Night after nautical twilight
-    return night_brightness
+    else:
+        brightness = night_brightness
 
+    brightness = apply_gamma(brightness, gamma)
 
-def compute_gamma_brightness(brightness):
-    return apply_gamma(brightness)
+    return brightness
 
 
 # %%

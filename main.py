@@ -11,7 +11,7 @@ from led_image_renderer import render_image
 from led_image_pre_render import create_pre_render
 from compute_brightness_from_twilight import (
     get_twilight_epochs,
-    compute_gamma_brightness,
+    compute_brightness,
 )
 
 # =================================================
@@ -34,6 +34,10 @@ LAST_GOOD = ([("error", "-")] * NUM_TRAINS,)
 
 # manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
 # image = render_image(manhattan, queens)
+
+NIGHT_BRIGHTNESS = 55
+DAY_BRIGHTNESS = 70
+GAMMA = 2.2
 
 # -------------------------------------------------
 # Main loop
@@ -100,7 +104,13 @@ def main():
 
             # update brightness if different
             epoch = int(datetime.now(timezone.utc).timestamp())
-            brightness = compute_gamma_brightness(epoch, twilight_dict)
+            brightness = compute_brightness(
+                epoch,
+                twilight_dict,
+                night_brightness=NIGHT_BRIGHTNESS,
+                day_brightness=DAY_BRIGHTNESS,
+                gamma=GAMMA,
+            )
             if brightness != last_brightness:
                 matrix.SetBrightness(brightness)
                 last_brightness = brightness

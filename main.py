@@ -75,12 +75,11 @@ def main():
         while True:
             # Check if we need to update the pre-render (new day_brightness)
             today_ymd = datetime.now().strftime("%Y%m%d")
-            print(today_ymd, last_pre_render_date)
 
             if today_ymd != last_pre_render_date:
 
                 twilight_dict = get_twilight_epochs(today_ymd)
-                print(twilight_dict)
+                print(twilight_dict, flush=True)
 
                 pre_render_path = f"assets/led_matrix_render/pre_render_{today_ymd}.png"
 
@@ -93,10 +92,10 @@ def main():
 
             try:
                 manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
-                # print(manhattan, queens)
+                # print(manhattan, queens, flush=True)
 
             except Exception:
-                print("⚠️  MTA fetch error:")
+                print("⚠️  MTA fetch error:", flush=True)
                 traceback.print_exc()
                 manhattan, queens = LAST_GOOD  # last_good
 
@@ -109,7 +108,7 @@ def main():
                 day_brightness=DAY_BRIGHTNESS,
                 gamma=GAMMA,
             )
-            print(today_ymd, last_pre_render_date, brightness)
+            print(today_ymd, last_pre_render_date, brightness, flush=True)
             if brightness != last_brightness:
                 matrix.brightness = brightness
                 last_brightness = brightness
@@ -124,7 +123,7 @@ def main():
             time.sleep(REFRESH_SECONDS)
 
     except KeyboardInterrupt:
-        print("\n🛑 Shutting down cleanly...")
+        print("\n🛑 Shutting down cleanly...", flush=True)
         matrix.Clear()
 
 

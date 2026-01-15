@@ -87,7 +87,6 @@ def main():
                 # If pre-render doesn't exist, create it
                 if not os.path.exists(pre_render_path):
                     print(f"No pre-render found for {today_ymd}, creating...")
-
                     create_pre_render()
 
                 last_pre_render_date = today_ymd
@@ -95,7 +94,7 @@ def main():
             try:
                 manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
                 last_good = (manhattan, queens)
-                print(last_good, flush=True)
+                # print(last_good)
 
             except Exception:
                 print("⚠️  MTA fetch error:")

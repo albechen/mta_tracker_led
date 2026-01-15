@@ -287,6 +287,27 @@ Unit=ledmatrix-stop.service
 WantedBy=timers.target
 ```
 
+### Set up journal to only keep a day's data
+
+```bash
+sudo nano /etc/systemd/journald.conf
+```
+
+``` ini
+MaxRetentionSec=1day
+```
+
+```bash
+sudo systemctl restart systemd-journald
+```
+
+clear logs more than a day
+
+```bash
+sudo journalctl --vacuum-time=1d
+journalctl --disk-usage
+```
+
 ### Enable + start the service
 
 ```bash
@@ -324,6 +345,7 @@ sudo journalctl -u ledmatrix.service -f
 journalctl -u ledmatrix.service
 sudo systemctl status ledmatrix.service
 sudo journalctl -u ledmatrix.service -f
+journalctl -u ledmatrix.service --since "1 hours ago"
 ```
 
 restart

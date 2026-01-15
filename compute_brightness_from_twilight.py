@@ -123,7 +123,6 @@ def compute_brightness(
 #     epoch = int(t.timestamp())
 
 #     brightness = compute_brightness(epoch, twilight)
-#     gamma_brighness = compute_gamma_brightness(brightness)
 
 #     label = ""
 #     if twilight["nautical_begin"] <= epoch <= twilight["civil_begin"]:
@@ -136,7 +135,7 @@ def compute_brightness(
 #         label = "🌙 night"
 
 #     ny_time = t.astimezone(ZoneInfo("America/New_York")).strftime("%I:%M:%S %p")
-#     print(f"{ny_time} | brightness {gamma_brighness} {brightness:.2f} {label}")
+#     print(f"{ny_time} | brightness {brightness} {label}")
 
 #     t += timedelta(seconds=20)
 

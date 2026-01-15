@@ -345,7 +345,7 @@ sudo journalctl -u ledmatrix.service -f
 journalctl -u ledmatrix.service
 sudo systemctl status ledmatrix.service
 sudo journalctl -u ledmatrix.service -f
-journalctl -u ledmatrix.service --since "1 hours ago"
+journalctl -u ledmatrix.service --since "15 min ago"
 ```
 
 restart

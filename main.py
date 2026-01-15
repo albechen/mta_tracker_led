@@ -53,7 +53,7 @@ def init_matrix():
     options.hardware_mapping = "adafruit-hat-pwm"
 
     # performance / flicker settings
-    options.brightness = 20  # 0–100
+    # options.brightness = 20  # 0–100
     options.pwm_bits = 11  # lower = faster
     options.pwm_lsb_nanoseconds = 130
     options.limit_refresh_rate_hz = 200
@@ -67,7 +67,6 @@ def init_matrix():
 def main():
     matrix = init_matrix()
 
-    last_good = LAST_GOOD
     last_displayed = None
     last_pre_render_date = None
     last_brightness = None
@@ -76,6 +75,7 @@ def main():
         while True:
             # Check if we need to update the pre-render (new day_brightness)
             today_ymd = datetime.now().strftime("%Y%m%d")
+            print(today_ymd, last_pre_render_date)
 
             if today_ymd != last_pre_render_date:
 
@@ -93,8 +93,7 @@ def main():
 
             try:
                 manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
-                last_good = (manhattan, queens)
-                # print(last_good)
+                # print(manhattan, queens)
 
             except Exception:
                 print("⚠️  MTA fetch error:")
@@ -110,6 +109,7 @@ def main():
                 day_brightness=DAY_BRIGHTNESS,
                 gamma=GAMMA,
             )
+            print(today_ymd, last_pre_render_date, brightness)
             if brightness != last_brightness:
                 matrix.brightness = brightness
                 last_brightness = brightness

@@ -90,7 +90,7 @@ def main():
 
                     create_pre_render()
 
-                    last_pre_render_date = today_ymd
+                last_pre_render_date = today_ymd
 
             try:
                 manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
@@ -111,7 +111,6 @@ def main():
                 day_brightness=DAY_BRIGHTNESS,
                 gamma=GAMMA,
             )
-            print(brightness)
             if brightness != last_brightness:
                 matrix.brightness = brightness
                 last_brightness = brightness

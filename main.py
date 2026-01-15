@@ -113,7 +113,7 @@ def main():
             )
             print(brightness)
             if brightness != last_brightness:
-                matrix.brightness(brightness)
+                matrix.brightness = brightness
                 last_brightness = brightness
 
             # Only redraw if data changed OR pre-render changed

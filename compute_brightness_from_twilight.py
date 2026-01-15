@@ -14,7 +14,7 @@ def apply_gamma(brightness, gamma=2.2, max_brightness=100):
 
 def get_twilight_epochs(date_str):
     """
-    Returns a dict of UTC epoch seconds for twilight times.
+    Returns a dict of UTC epoch seconds for civil twilight + sunrise/sunset.
     """
     url = "https://api.sunrise-sunset.org/json"
     params = {"lat": LAT, "lng": LON, "date": date_str, "formatted": 0}
@@ -28,55 +28,52 @@ def get_twilight_epochs(date_str):
         return int(datetime.fromisoformat(results[key]).timestamp())
 
     return {
-        "nautical_begin": to_epoch("nautical_twilight_begin"),
         "civil_begin": to_epoch("civil_twilight_begin"),
+        "sunrise": to_epoch("sunrise"),
+        "sunset": to_epoch("sunset"),
         "civil_end": to_epoch("civil_twilight_end"),
-        "nautical_end": to_epoch("nautical_twilight_end"),
     }
 
 
 def compute_brightness(
-    now_epoch, twilight, night_brightness=55, day_brightness=70, gamma=2.2
+    now_epoch, twilight, night_brightness=58, day_brightness=73, gamma=2.2
 ):
-    nb = twilight["nautical_begin"]
     cb = twilight["civil_begin"]
+    sr = twilight["sunrise"]
+    ss = twilight["sunset"]
     ce = twilight["civil_end"]
-    ne = twilight["nautical_end"]
 
-    # Night before nautical twilight
-    if now_epoch < nb:
+    # Night before civil twilight
+    if now_epoch < cb:
         brightness = night_brightness
 
-    # Fade-in: nautical → civil
-    elif nb <= now_epoch <= cb:
-        progress = (now_epoch - nb) / (cb - nb)
+    # Fade-in: civil → sunrise
+    elif cb <= now_epoch <= sr:
+        progress = (now_epoch - cb) / (sr - cb)
         brightness = night_brightness + progress * (day_brightness - night_brightness)
 
     # Daytime
-    elif cb < now_epoch < ce:
+    elif sr < now_epoch < ss:
         brightness = day_brightness
 
-    # Fade-out: civil → nautical
-    elif ce <= now_epoch <= ne:
-        progress = (now_epoch - ce) / (ne - ce)
+    # Fade-out: sunset → civil
+    elif ss <= now_epoch <= ce:
+        progress = (now_epoch - ss) / (ce - ss)
         brightness = day_brightness - progress * (day_brightness - night_brightness)
 
-    # Night after nautical twilight
+    # Night after civil twilight
     else:
         brightness = night_brightness
 
-    brightness = apply_gamma(brightness, gamma)
-
-    return brightness
+    return apply_gamma(brightness, gamma)
 
 
 # %%
 # =================================================
-# Test runner
+# Test runner (civil twilight + sunrise/sunset)
 # =================================================
 # from datetime import datetime, timezone, timedelta
 # from zoneinfo import ZoneInfo
-
 
 # today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
@@ -86,26 +83,26 @@ def compute_brightness(
 # print("-" * 50)
 
 # print(
-#     "Nautical begin:",
-#     datetime.fromtimestamp(twilight["nautical_begin"], tz=timezone.utc)
-#     .astimezone(ZoneInfo("America/New_York"))
-#     .strftime("%I:%M %p"),
-# )
-# print(
-#     "Civil begin   :",
+#     "Civil begin:",
 #     datetime.fromtimestamp(twilight["civil_begin"], tz=timezone.utc)
 #     .astimezone(ZoneInfo("America/New_York"))
 #     .strftime("%I:%M %p"),
 # )
 # print(
-#     "Civil end     :",
-#     datetime.fromtimestamp(twilight["civil_end"], tz=timezone.utc)
+#     "Sunrise    :",
+#     datetime.fromtimestamp(twilight["sunrise"], tz=timezone.utc)
 #     .astimezone(ZoneInfo("America/New_York"))
 #     .strftime("%I:%M %p"),
 # )
 # print(
-#     "Nautical end  :",
-#     datetime.fromtimestamp(twilight["nautical_end"], tz=timezone.utc)
+#     "Sunset     :",
+#     datetime.fromtimestamp(twilight["sunset"], tz=timezone.utc)
+#     .astimezone(ZoneInfo("America/New_York"))
+#     .strftime("%I:%M %p"),
+# )
+# print(
+#     "Civil end :",
+#     datetime.fromtimestamp(twilight["civil_end"], tz=timezone.utc)
 #     .astimezone(ZoneInfo("America/New_York"))
 #     .strftime("%I:%M %p"),
 # )
@@ -113,9 +110,7 @@ def compute_brightness(
 # print("-" * 50)
 
 # # Start at midnight UTC
-# start = datetime.now(timezone.utc).replace(
-#     hour=0, minute=0, second=0, microsecond=0
-# )
+# start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
 # end = start + timedelta(days=1)
 
 # t = start
@@ -125,17 +120,17 @@ def compute_brightness(
 #     brightness = compute_brightness(epoch, twilight)
 
 #     label = ""
-#     if twilight["nautical_begin"] <= epoch <= twilight["civil_begin"]:
-#         label = "↗ fade-in (naut → civil)"
-#     elif twilight["civil_end"] <= epoch <= twilight["nautical_end"]:
-#         label = "↘ fade-out (civil → naut)"
-#     elif twilight["civil_begin"] < epoch < twilight["civil_end"]:
+#     if twilight["civil_begin"] <= epoch <= twilight["sunrise"]:
+#         label = "↗ fade-in (civil → sunrise)"
+#     elif twilight["sunset"] <= epoch <= twilight["civil_end"]:
+#         label = "↘ fade-out (sunset → civil)"
+#     elif twilight["sunrise"] < epoch < twilight["sunset"]:
 #         label = "☀ day"
 #     else:
 #         label = "🌙 night"
 
 #     ny_time = t.astimezone(ZoneInfo("America/New_York")).strftime("%I:%M:%S %p")
-#     print(f"{ny_time} | brightness {brightness} {label}")
+#     print(f"{ny_time} | brightness {brightness:3d} {label}")
 
 #     t += timedelta(seconds=20)
 

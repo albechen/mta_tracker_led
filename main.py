@@ -35,8 +35,8 @@ LAST_GOOD = ([("error", "-")] * NUM_TRAINS,)
 # manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
 # image = render_image(manhattan, queens)
 
-NIGHT_BRIGHTNESS = 55
-DAY_BRIGHTNESS = 70
+NIGHT_BRIGHTNESS = 58
+DAY_BRIGHTNESS = 73
 GAMMA = 2.2
 
 # -------------------------------------------------

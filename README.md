@@ -311,6 +311,13 @@ sudo reboot
 Stream of print statments (Ctrl+C to exit):
 
 ```bash
+sudo systemctl stop ledmatrix.service
+cd ~/mta_tracker_led
+sudo git pull
+sudo systemctl start ledmatrix.service
+```
+
+```bash
 journalctl -u ledmatrix.service
 sudo systemctl status ledmatrix.service
 sudo journalctl -u ledmatrix.service -f

@@ -314,7 +314,10 @@ Stream of print statments (Ctrl+C to exit):
 sudo systemctl stop ledmatrix.service
 cd ~/mta_tracker_led
 sudo git pull
+cd
 sudo systemctl start ledmatrix.service
+sudo journalctl -u ledmatrix.service -f
+
 ```
 
 ```bash

@@ -111,6 +111,7 @@ def main():
                 day_brightness=DAY_BRIGHTNESS,
                 gamma=GAMMA,
             )
+            print(brightness)
             if brightness != last_brightness:
                 matrix.brightness(brightness)
                 last_brightness = brightness

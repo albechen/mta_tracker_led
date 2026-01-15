@@ -1,6 +1,6 @@
 # %%
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 import traceback
 
@@ -9,6 +9,10 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from mta_arrival_fetcher import get_all_arrivals
 from led_image_renderer import render_image
 from led_image_pre_render import create_pre_render
+from compute_brightness_from_twilight import (
+    get_twilight_epochs,
+    compute_applied_brightness,
+)
 
 # =================================================
 # Configuration
@@ -60,26 +64,29 @@ def main():
     matrix = init_matrix()
 
     last_good = LAST_GOOD
-    last_displayed = None  # used to avoid unnecessary redraws
+    last_displayed = None
     last_pre_render_date = None
+    last_brightness = None
 
     try:
         while True:
-            # Check if we need to update the pre-render (new day)
-            today_date = datetime.now().strftime("%Y%m%d")
+            # Check if we need to update the pre-render (new day_brightness)
+            today_ymd = datetime.now().strftime("%Y%m%d")
 
-            if today_date != last_pre_render_date:
-                pre_render_path = (
-                    f"assets/led_matrix_render/pre_render_{today_date}.png"
-                )
+            if today_ymd != last_pre_render_date:
+
+                twilight_dict = get_twilight_epochs(today_ymd)
+                print(twilight_dict)
+
+                pre_render_path = f"assets/led_matrix_render/pre_render_{today_ymd}.png"
 
                 # If pre-render doesn't exist, create it
                 if not os.path.exists(pre_render_path):
-                    print(f"No pre-render found for {today_date}, creating...")
+                    print(f"No pre-render found for {today_ymd}, creating...")
 
                     create_pre_render()
 
-                    last_pre_render_date = today_date
+                    last_pre_render_date = today_ymd
 
             try:
                 manhattan, queens = get_all_arrivals(FEEDS, LINES, STOP, NUM_TRAINS)
@@ -90,6 +97,13 @@ def main():
                 print("⚠️  MTA fetch error:")
                 traceback.print_exc()
                 manhattan, queens = LAST_GOOD  # last_good
+
+            # update brightness if different
+            epoch = int(datetime.now(timezone.utc).timestamp())
+            brightness = compute_applied_brightness(epoch, twilight_dict)
+            if brightness != last_brightness:
+                matrix.SetBrightness(brightness)
+                last_brightness = brightness
 
             # Only redraw if data changed OR pre-render changed
             current = (tuple(manhattan), tuple(queens))

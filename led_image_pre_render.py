@@ -10,10 +10,10 @@ WIDTH, HEIGHT = 128, 32
 FONT_SMALL = ImageFont.load("assets/fonts/pil/5x7.pil")
 FONT_TINY = ImageFont.load("assets/fonts/pil/4x6.pil")
 
-# Assuming you have a weather function in a separate module
-from get_weather_high_low import (
-    get_min_max_temp_from_forecast,
-)  # Adjust import as needed
+LAT = 40.7644
+LON = -73.9235
+
+from get_weather_high_low import get_min_max_temp_openmetro
 
 
 def create_pre_render():
@@ -43,9 +43,8 @@ def create_pre_render():
     try:
         # Get coordinates for Queens area
         # Using approximate coordinates for Queens, NY
-        queens_lat, queens_lon = 40.7282, -73.7949
 
-        weather_data = get_min_max_temp_from_forecast(queens_lat, queens_lon)
+        weather_data = get_min_max_temp_openmetro(LAT, LON)
 
         if weather_data:
             high = int(weather_data.get("high", "--"))

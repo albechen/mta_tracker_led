@@ -165,6 +165,7 @@ sudo systemctl start ledmatrix.service
 ```bash
 cd ~/mta_tracker_led/assets/led_matrix_render
 rm pre_render*.png
+cd
 ```
 
 ### to run it

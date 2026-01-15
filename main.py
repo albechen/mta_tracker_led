@@ -112,7 +112,7 @@ def main():
                 gamma=GAMMA,
             )
             if brightness != last_brightness:
-                matrix.SetBrightness(brightness)
+                matrix.brightness(brightness)
                 last_brightness = brightness
 
             # Only redraw if data changed OR pre-render changed

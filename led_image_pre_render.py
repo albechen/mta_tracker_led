@@ -64,7 +64,7 @@ def create_pre_render():
             # Right-align the whole group
             weather_x = WIDTH - total_width
 
-            x = weather_x + 1
+            x = weather_x + 2
 
             # Draw high (bright red)
             draw.text((x, label_y), high_text, (255, 60, 60), FONT_SMALL)

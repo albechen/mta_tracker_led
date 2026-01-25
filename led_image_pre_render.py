@@ -54,26 +54,27 @@ def create_pre_render():
             sep_text = "|"
             low_text = f"{low}°"
 
-            # TRUE advance widths (includes font padding)
-            high_w = draw.textlength(high_text, FONT_SMALL)
-            sep_w = draw.textlength(sep_text, FONT_SMALL)
-            low_w = draw.textlength(low_text, FONT_SMALL)
+            # Measure widths
+            high_w = FONT_SMALL.getbbox(high_text)[2]
+            sep_w = FONT_SMALL.getbbox(sep_text)[2] - 1
+            low_w = FONT_SMALL.getbbox(low_text)[2]
 
             total_width = high_w + sep_w + low_w
 
-            # Right-align
+            # Right-align the whole group
             weather_x = WIDTH - total_width
+
             x = weather_x + 1
 
-            # Draw high
+            # Draw high (bright red)
             draw.text((x, label_y), high_text, (255, 60, 60), FONT_SMALL)
-            x += high_w
+            x += high_w - 2
 
             # Draw separator
             draw.text((x, label_y), sep_text, (200, 200, 200), FONT_SMALL)
             x += sep_w
 
-            # Draw low
+            # Draw low (bright blue)
             draw.text((x, label_y), low_text, (60, 140, 255), FONT_SMALL)
 
     except Exception as e:

@@ -85,8 +85,12 @@ def main():
                 pre_render_path = f"assets/led_matrix_render/pre_render_{today_ymd}.png"
 
                 # If pre-render doesn't exist, create it
-                if not os.path.exists(pre_render_path) or (got_weather == False):
+                if not os.path.exists(pre_render_path):
                     print(f"No pre-render found for {today_ymd}, creating...")
+                    got_weather = create_pre_render()
+
+                elif got_weather == False:
+                    print(f"No weather found for {today_ymd}, creating...")
                     got_weather = create_pre_render()
 
                 last_pre_render_date = today_ymd

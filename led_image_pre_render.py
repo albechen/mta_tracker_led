@@ -52,32 +52,64 @@ def create_pre_render():
             high = int(weather_data.get("high", "--"))
             low = int(weather_data.get("low", "--"))
 
-            high_text = f"{high}°"
-            sep_text = "|"
-            low_text = f"{low}°"
+            # Helpers
+            def text_w(font, text):
+                bbox = font.getbbox(text)
+                return bbox[2] - bbox[0]
 
-            # Measure widths
-            high_w = FONT_SMALL.getbbox(high_text)[2]
-            sep_w = FONT_SMALL.getbbox(sep_text)[2] - 1
-            low_w = FONT_SMALL.getbbox(low_text)[2]
+            def text_h(font, text="8"):
+                bbox = font.getbbox(text)
+                return bbox[3] - bbox[1]
 
-            total_width = high_w + sep_w + low_w
+            # Layout
+            gap = 1
+            line_h = text_h(FONT_SMALL)
 
-            # Right-align the whole group
-            weather_x = WIDTH - total_width
+            # Colors
+            BG = (20, 20, 20)
+            RED = (255, 60, 60)
+            BLUE = (60, 140, 255)
+            GRAY = (200, 200, 200)
 
-            x = weather_x + 2
+            # Measure total width
+            high_w = text_w(FONT_SMALL, high)
+            low_w = text_w(FONT_SMALL, low)
 
-            # Draw high (bright red)
-            draw.text((x, label_y), high_text, (255, 60, 60), FONT_SMALL)
-            x += high_w - 2
+            total_width = (
+                high_w + gap + 1 + gap + 1 + gap + low_w + gap + 1
+            )  # dot  # line  # dot
 
-            # Draw separator
-            draw.text((x, label_y), sep_text, (200, 200, 200), FONT_SMALL)
-            x += sep_w
+            # Image
+            WIDTH = total_width + 20
+            HEIGHT = line_h + 20
 
-            # Draw low (bright blue)
-            draw.text((x, label_y), low_text, (60, 140, 255), FONT_SMALL)
+            img = Image.new("RGB", (WIDTH, HEIGHT), BG)
+            draw = ImageDraw.Draw(img)
+
+            # Position
+            x = 10
+            baseline_y = 10
+
+            # ---- Draw High ----
+            draw.text((x, baseline_y), high, RED, FONT_SMALL)
+            x += high_w + gap - 1  # pull back 1px to cancel font padding
+
+            # ---- Draw Dot ----
+            dot_y = baseline_y + 1
+            draw.point((x, dot_y), fill=RED)
+            x += 1 + gap
+
+            # ---- Draw Line ----
+            draw.line((x, baseline_y, x, baseline_y + line_h - 1), fill=GRAY, width=1)
+            x += 1 + gap
+
+            # ---- Draw Low ----
+            draw.text((x, baseline_y), low, BLUE, FONT_SMALL)
+            x += low_w + gap - 1  # same fix here
+
+            # ---- Draw Dot ----
+            dot_y = baseline_y + 1
+            draw.point((x, dot_y), fill=BLUE)
             got_weather = True
 
     except Exception as e:

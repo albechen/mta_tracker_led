@@ -99,12 +99,11 @@ def create_pre_render():
         if filename.startswith("pre_render_") and filename.endswith(".png"):
             # Extract date from filename
             file_date = filename.replace("pre_render_", "").replace(".png", "")
-            if file_date != today_date:
-                try:
-                    os.remove(os.path.join(output_dir, filename))
-                    print(f"Deleted old pre-render: {filename}")
-                except Exception as e:
-                    print(f"Error deleting {filename}: {e}")
+            try:
+                os.remove(os.path.join(output_dir, filename))
+                print(f"Deleted old pre-render: {filename}")
+            except Exception as e:
+                print(f"Error deleting {filename}: {e}")
 
     # Save new pre-render
     output_path = os.path.join(output_dir, f"pre_render_{today_date}.png")

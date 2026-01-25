@@ -41,7 +41,7 @@ def draw_labels(draw, y=0):
     manhattan_x = 0
     queens_x = WIDTH // 2
 
-    draw.text((manhattan_x, y), "Manhattan", (255, 255, 255), FONT_SMALL)
+    draw.text((manhattan_x, y), "Manhtn", (255, 255, 255), FONT_SMALL)
     draw.text((queens_x, y), "Queens", (255, 255, 255), FONT_SMALL)
 
 

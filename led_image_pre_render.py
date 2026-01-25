@@ -34,10 +34,10 @@ def create_pre_render():
     label_y = 0
 
     # Draw Manhattan label (yellow)
-    draw.text((manhattan_x, label_y), "MAN", (255, 255, 255), FONT_SMALL)
+    draw.text((manhattan_x, label_y), "Manhattan", (255, 255, 255), FONT_SMALL)
 
     # Draw Queens label
-    draw.text((queens_x, label_y), "QNS", (255, 255, 255), FONT_SMALL)
+    draw.text((queens_x, label_y), "Queens", (255, 255, 255), FONT_SMALL)
 
     # 2. Get today's high and low temperatures
     try:

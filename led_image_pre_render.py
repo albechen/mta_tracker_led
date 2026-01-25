@@ -34,10 +34,10 @@ def create_pre_render():
     label_y = 0
 
     # Draw Manhattan label (yellow)
-    draw.text((manhattan_x, label_y), "Manhattan", (255, 255, 255), FONT_SMALL)
+    draw.text((manhattan_x, label_y), "MAN", (255, 255, 255), FONT_SMALL)
 
     # Draw Queens label
-    draw.text((queens_x, label_y), "Queens", (255, 255, 255), FONT_SMALL)
+    draw.text((queens_x, label_y), "QNS", (255, 255, 255), FONT_SMALL)
 
     # 2. Get today's high and low temperatures
     try:
@@ -55,9 +55,9 @@ def create_pre_render():
             low_text = f"{low}°"
 
             # Measure widths
-            high_w = FONT_TINY.getbbox(high_text)[2]
-            sep_w = FONT_TINY.getbbox(sep_text)[2]
-            low_w = FONT_TINY.getbbox(low_text)[2]
+            high_w = FONT_SMALL.getbbox(high_text)[2]
+            sep_w = FONT_SMALL.getbbox(sep_text)[2]
+            low_w = FONT_SMALL.getbbox(low_text)[2]
 
             total_width = high_w + sep_w + low_w
 
@@ -67,24 +67,24 @@ def create_pre_render():
             x = weather_x + 1
 
             # Draw high (light red)
-            draw.text((x, label_y), high_text, (255, 140, 140), FONT_TINY)
+            draw.text((x, label_y), high_text, (255, 140, 140), FONT_SMALL)
             x += high_w
 
             # Draw separator
-            draw.text((x, label_y), sep_text, (200, 200, 200), FONT_TINY)
+            draw.text((x, label_y), sep_text, (200, 200, 200), FONT_SMALL)
             x += sep_w
 
             # Draw low (light blue)
-            draw.text((x, label_y), low_text, (140, 190, 255), FONT_TINY)
+            draw.text((x, label_y), low_text, (140, 190, 255), FONT_SMALL)
 
     except Exception as e:
         print(f"Error getting weather: {e}")
         # Draw placeholder if weather fails, also anchored to right
         placeholder_text = "--/--"
-        text_bbox = FONT_TINY.getbbox(placeholder_text)
+        text_bbox = FONT_SMALL.getbbox(placeholder_text)
         text_width = text_bbox[2] - text_bbox[0]
         weather_x = WIDTH - text_width - 1
-        draw.text((weather_x, label_y), placeholder_text, (255, 130, 0), FONT_TINY)
+        draw.text((weather_x, label_y), placeholder_text, (255, 130, 0), FONT_SMALL)
 
     # 3. Save to file
     output_dir = "assets/led_matrix_render"

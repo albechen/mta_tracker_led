@@ -56,7 +56,7 @@ def create_pre_render():
 
             # Measure widths
             high_w = FONT_SMALL.getbbox(high_text)[2]
-            sep_w = FONT_SMALL.getbbox(sep_text)[2]
+            sep_w = FONT_SMALL.getbbox(sep_text)[2] - 1
             low_w = FONT_SMALL.getbbox(low_text)[2]
 
             total_width = high_w + sep_w + low_w

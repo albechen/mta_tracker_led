@@ -66,16 +66,16 @@ def create_pre_render():
 
             x = weather_x + 1
 
-            # Draw high (light red)
-            draw.text((x, label_y), high_text, (255, 140, 140), FONT_SMALL)
+            # Draw high (bright red)
+            draw.text((x, label_y), high_text, (255, 60, 60), FONT_SMALL)
             x += high_w
 
             # Draw separator
             draw.text((x, label_y), sep_text, (200, 200, 200), FONT_SMALL)
             x += sep_w
 
-            # Draw low (light blue)
-            draw.text((x, label_y), low_text, (140, 190, 255), FONT_SMALL)
+            # Draw low (bright blue)
+            draw.text((x, label_y), low_text, (60, 140, 255), FONT_SMALL)
 
     except Exception as e:
         print(f"Error getting weather: {e}")

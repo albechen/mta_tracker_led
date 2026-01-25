@@ -127,6 +127,57 @@ def draw_train_small(image, draw, x, y, line, mins):
 
 
 # =================================================
+# Draw clock
+# =================================================
+
+
+def draw_clock(draw, x_offset, label, y=0):
+    """
+    Draw HH:MM clock in the upper right corner of the Manhattan side.
+    - Splits ':' into two pixels with 1px spacing from numbers.
+    - Uses FONT_SMALL and yellow color.
+    """
+    if label != "Manhattan":
+        return  # only draw for Manhattan
+
+    now = datetime.now()
+    time_str = now.strftime("%I:%M").lstrip("0")  # e.g., "9:05"
+
+    # Split into parts
+    if ":" in time_str:
+        hours, mins = time_str.split(":")
+    else:
+        hours = time_str
+        mins = "00"
+
+    gap = 1  # 1px gap between elements
+
+    # Measure widths
+    hours_w = FONT_SMALL.getbbox(hours)[2] - FONT_SMALL.getbbox(hours)[0]
+    mins_w = FONT_SMALL.getbbox(mins)[2] - FONT_SMALL.getbbox(mins)[0]
+    colon_w = 1  # we will draw colon as two single pixels stacked
+
+    total_width = hours_w + gap + colon_w + gap + mins_w
+
+    # Right-align group within Manhattan side
+    x = x_offset + 64 - total_width + 1
+
+    # ---- Draw Hours ----
+    draw.text((x, y), hours, (255, 255, 0), FONT_SMALL)
+    x += hours_w + gap - 1  # cancel font right bearing
+
+    # ---- Draw Colon (2 pixels, stacked, 1px gap between numbers) ----
+    colon_y_top = y + 1
+    colon_y_bottom = y + 3
+    draw.point((x, colon_y_top), fill=(255, 255, 0))
+    draw.point((x, colon_y_bottom), fill=(255, 255, 0))
+    x += colon_w + gap
+
+    # ---- Draw Minutes ----
+    draw.text((x, y), mins, (255, 255, 0), FONT_SMALL)
+
+
+# =================================================
 # Side renderer (64x32)
 # =================================================
 
@@ -159,17 +210,7 @@ def draw_side(image, draw, x_offset, label, trains):
         )
 
     # --- Draw HH:MM in upper right if Manhattan ---
-    if label == "Manhattan":
-        now = datetime.now()
-        time_str = now.strftime("%I:%M").lstrip("0")  # remove leading zero
-        text_w, text_h = draw.textsize(time_str, font=FONT_SMALL)
-        # Draw at top right corner of this side
-        draw.text(
-            (x_offset + LEFT_COL_WIDTH - text_w, LABEL_Y),
-            time_str,
-            (255, 255, 0),
-            FONT_SMALL,
-        )
+    draw_clock(draw, x_offset, label, y=LABEL_Y)
 
 
 # =================================================
@@ -231,8 +272,9 @@ def draw_pixel_grid_image(image):
 #     manhattan = [("E", 5), ("R", 9), ("M", 11)]
 #     # manhattan = []
 #     queens = [("R", 19), ("E", 10), ("F", 49)]
-
-#     image = render_image(manhattan, queens)
+#     today_ymd = datetime.now().strftime("%Y%m%d")
+#     pre_render_path = f"assets/led_matrix_render/pre_render_{today_ymd}.png"
+#     image = render_image(manhattan, queens, pre_render_path)
 #     draw_pixel_grid_image(image)
 
 

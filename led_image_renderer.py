@@ -163,18 +163,18 @@ def draw_clock(draw, x_offset, label, y=0):
     x = x_offset + 64 - total_width + 1
 
     # ---- Draw Hours ----
-    draw.text((x, y), hours, (255, 255, 0), FONT_SMALL)
+    draw.text((x, y), hours, (255, 255, 255), FONT_SMALL)
     x += hours_w + gap - 1  # cancel font right bearing
 
     # ---- Draw Colon (2 pixels, stacked, 1px gap between numbers) ----
     colon_y_top = y + 1
     colon_y_bottom = y + 3
-    draw.point((x, colon_y_top), fill=(255, 255, 0))
-    draw.point((x, colon_y_bottom), fill=(255, 255, 0))
+    draw.point((x, colon_y_top), fill=(255, 255, 255))
+    draw.point((x, colon_y_bottom), fill=(255, 255, 255))
     x += colon_w + gap
 
     # ---- Draw Minutes ----
-    draw.text((x, y), mins, (255, 255, 0), FONT_SMALL)
+    draw.text((x, y), mins, (255, 255, 255), FONT_SMALL)
 
 
 # =================================================

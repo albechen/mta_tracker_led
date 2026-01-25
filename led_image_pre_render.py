@@ -51,7 +51,7 @@ def create_pre_render():
             low = int(weather_data.get("low", "--"))
 
             high_text = f"{high}°"
-            sep_text = "/"
+            sep_text = "|"
             low_text = f"{low}°"
 
             # Measure widths
@@ -80,7 +80,7 @@ def create_pre_render():
     except Exception as e:
         print(f"Error getting weather: {e}")
         # Draw placeholder if weather fails, also anchored to right
-        placeholder_text = "--/--"
+        placeholder_text = "--|--"
         text_bbox = FONT_SMALL.getbbox(placeholder_text)
         text_width = text_bbox[2] - text_bbox[0]
         weather_x = WIDTH - text_width - 1

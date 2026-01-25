@@ -70,13 +70,14 @@ def main():
     last_displayed = None
     last_pre_render_date = None
     last_brightness = None
+    got_weather = False
 
     try:
         while True:
             # Check if we need to update the pre-render (new day_brightness)
             today_ymd = datetime.now().strftime("%Y%m%d")
 
-            if today_ymd != last_pre_render_date:
+            if (today_ymd != last_pre_render_date) or (got_weather == False):
 
                 twilight_dict = get_twilight_epochs(today_ymd)
                 print(twilight_dict, flush=True)
@@ -84,9 +85,9 @@ def main():
                 pre_render_path = f"assets/led_matrix_render/pre_render_{today_ymd}.png"
 
                 # If pre-render doesn't exist, create it
-                if not os.path.exists(pre_render_path):
+                if not os.path.exists(pre_render_path) or (got_weather == False):
                     print(f"No pre-render found for {today_ymd}, creating...")
-                    create_pre_render()
+                    got_weather = create_pre_render()
 
                 last_pre_render_date = today_ymd
 

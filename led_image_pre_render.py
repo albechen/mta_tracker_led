@@ -21,6 +21,8 @@ def create_pre_render():
     Create pre-rendered image with Manhattan/Queens labels and today's weather
     Save as pre_render_{today_date}.png and clean up old files
     """
+    got_weather = False
+
     # Get today's date
     today_date = datetime.now().strftime("%Y%m%d")
 
@@ -76,6 +78,7 @@ def create_pre_render():
 
             # Draw low (bright blue)
             draw.text((x, label_y), low_text, (60, 140, 255), FONT_SMALL)
+            got_weather = True
 
     except Exception as e:
         print(f"Error getting weather: {e}")
@@ -85,6 +88,7 @@ def create_pre_render():
         text_width = text_bbox[2] - text_bbox[0]
         weather_x = WIDTH - text_width - 1
         draw.text((weather_x, label_y), placeholder_text, (255, 130, 0), FONT_SMALL)
+        got_weather = False
 
     # 3. Save to file
     output_dir = "assets/led_matrix_render"
@@ -107,9 +111,9 @@ def create_pre_render():
     image.save(output_path)
     print(f"Pre-render saved: {output_path}")
 
-    return output_path
+    return got_weather
 
 
-create_pre_render()
+# create_pre_render()
 
 # %%

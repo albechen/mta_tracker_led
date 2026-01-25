@@ -1,4 +1,83 @@
 # %%
+from PIL import Image, ImageDraw, ImageFont
+
+# Load font
+FONT_SMALL = ImageFont.load("assets/fonts/pil/5x7.pil")
+
+# Test values
+high = 27
+low = 14
+
+high_text = str(high)
+low_text = str(low)
+
+
+# Helpers
+def text_w(font, text):
+    bbox = font.getbbox(text)
+    return bbox[2] - bbox[0]
+
+
+def text_h(font, text="8"):
+    bbox = font.getbbox(text)
+    return bbox[3] - bbox[1]
+
+
+# Layout
+gap = 1
+line_h = text_h(FONT_SMALL)
+
+# Colors
+BG = (20, 20, 20)
+RED = (255, 60, 60)
+BLUE = (60, 140, 255)
+GRAY = (200, 200, 200)
+
+# Measure total width
+high_w = text_w(FONT_SMALL, high_text)
+low_w = text_w(FONT_SMALL, low_text)
+
+total_width = high_w + gap + 1 + gap + 1 + gap + low_w + gap + 1  # dot  # line  # dot
+
+# Image
+WIDTH = total_width + 20
+HEIGHT = line_h + 20
+
+img = Image.new("RGB", (WIDTH, HEIGHT), BG)
+draw = ImageDraw.Draw(img)
+
+# Position
+x = 10
+baseline_y = 10
+
+# ---- Draw High ----
+draw.text((x, baseline_y), high_text, RED, FONT_SMALL)
+x += high_w + gap - 1  # pull back 1px to cancel font padding
+
+# ---- Draw Dot ----
+dot_y = baseline_y + 1
+draw.point((x, dot_y), fill=RED)
+x += 1 + gap
+
+# ---- Draw Line ----
+draw.line((x, baseline_y, x, baseline_y + line_h - 1), fill=GRAY, width=1)
+x += 1 + gap
+
+# ---- Draw Low ----
+draw.text((x, baseline_y), low_text, BLUE, FONT_SMALL)
+x += low_w + gap - 1  # same fix here
+
+# ---- Draw Dot ----
+dot_y = baseline_y + 1
+draw.point((x, dot_y), fill=BLUE)
+
+
+# Save
+img.save("weather_test.png")
+print("Saved as weather_test.png")
+
+
+# %%
 import requests
 from datetime import datetime, timezone
 from math import fabs

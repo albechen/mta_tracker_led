@@ -1,5 +1,5 @@
 # %%
-
+from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 
 # =================================================
@@ -156,6 +156,19 @@ def draw_side(image, draw, x_offset, label, trains):
             x_offset + LEFT_COL_WIDTH,
             SMALL_ROW_Y[i - 1],
             *trains[i],
+        )
+
+    # --- Draw HH:MM in upper right if Manhattan ---
+    if label == "Manhattan":
+        now = datetime.now()
+        time_str = now.strftime("%I:%M").lstrip("0")  # remove leading zero
+        text_w, text_h = draw.textsize(time_str, font=FONT_SMALL)
+        # Draw at top right corner of this side
+        draw.text(
+            (x_offset + LEFT_COL_WIDTH - text_w, LABEL_Y),
+            time_str,
+            (255, 255, 0),
+            FONT_SMALL,
         )
 
 

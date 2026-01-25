@@ -71,7 +71,7 @@ def draw_weather_row(draw, high, low, y=0):
     )
 
     # Right-align group
-    x = WIDTH - total_width - 1
+    x = WIDTH - total_width + 2
 
     # ---- Draw High ----
     draw.text((x, y), high_text, (255, 60, 60), FONT_SMALL)

@@ -215,7 +215,7 @@ WorkingDirectory=/home/trackthemta/mta_tracker_led
 StandardOutput=journal
 StandardError=journal
 Restart=always
-RestartSec=5
+RestartSec=30
 
 User=root
 

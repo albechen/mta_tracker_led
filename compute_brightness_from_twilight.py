@@ -1,6 +1,6 @@
 # %%
 import requests
-from datetime import datetime
+from datetime import datetime, time, timezone
 
 LAT = 40.7644
 LON = -73.9235

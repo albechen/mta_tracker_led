@@ -1,6 +1,6 @@
 # %%
 import requests
-from datetime import datetime, time, timezone
+from datetime import datetime, time, timezone, timedelta
 
 LAT = 40.7644
 LON = -73.9235
@@ -12,18 +12,22 @@ def apply_gamma(brightness, gamma=2.2, max_brightness=100):
     return int(corrected * max_brightness)
 
 
-def get_default_epoch():
-    # today at 1 PM UTC (adjust timezone if needed)
-    today_1pm = datetime.combine(
-        datetime.utcnow().date(), time(13, 0), tzinfo=timezone.utc
-    )
-    return int(today_1pm.timestamp())
+def get_default_epochs():
+    # base time: today at 1 PM UTC
+    base = datetime.combine(datetime.utcnow().date(), time(13, 0), tzinfo=timezone.utc)
+
+    return {
+        "civil_begin": int(base.timestamp()),
+        "sunrise": int((base + timedelta(minutes=30)).timestamp()),
+        "sunset": int((base + timedelta(minutes=60)).timestamp()),
+        "civil_end": int((base + timedelta(minutes=90)).timestamp()),
+    }
 
 
 def get_twilight_epochs(date_str):
     """
     Returns a dict of UTC epoch seconds for civil twilight + sunrise/sunset.
-    Falls back to today at 1 PM if API fails or data is missing.
+    Falls back to spaced 30-min intervals starting at 1 PM if API fails.
     """
     url = "https://api.sunrise-sunset.org/json"
     params = {"lat": LAT, "lng": LON, "date": date_str, "formatted": 0}
@@ -46,14 +50,8 @@ def get_twilight_epochs(date_str):
             "civil_end": to_epoch("civil_twilight_end"),
         }
 
-    except Exception as e:
-        default_epoch = get_default_epoch()
-        return {
-            "civil_begin": default_epoch,
-            "sunrise": default_epoch,
-            "sunset": default_epoch,
-            "civil_end": default_epoch,
-        }
+    except Exception:
+        return get_default_epochs()
 
 
 def compute_brightness(
@@ -93,67 +91,67 @@ def compute_brightness(
 # =================================================
 # Test runner (civil twilight + sunrise/sunset)
 # =================================================
-from datetime import datetime, timezone, timedelta
-from zoneinfo import ZoneInfo
+# from datetime import datetime, timezone, timedelta
+# from zoneinfo import ZoneInfo
 
-today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+# today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
-twilight = get_twilight_epochs(today)
+# twilight = get_twilight_epochs(today)
 
-print("\nTwilight test for", today)
-print("-" * 50)
+# print("\nTwilight test for", today)
+# print("-" * 50)
 
-print(
-    "Civil begin:",
-    datetime.fromtimestamp(twilight["civil_begin"], tz=timezone.utc)
-    .astimezone(ZoneInfo("America/New_York"))
-    .strftime("%I:%M %p"),
-)
-print(
-    "Sunrise    :",
-    datetime.fromtimestamp(twilight["sunrise"], tz=timezone.utc)
-    .astimezone(ZoneInfo("America/New_York"))
-    .strftime("%I:%M %p"),
-)
-print(
-    "Sunset     :",
-    datetime.fromtimestamp(twilight["sunset"], tz=timezone.utc)
-    .astimezone(ZoneInfo("America/New_York"))
-    .strftime("%I:%M %p"),
-)
-print(
-    "Civil end :",
-    datetime.fromtimestamp(twilight["civil_end"], tz=timezone.utc)
-    .astimezone(ZoneInfo("America/New_York"))
-    .strftime("%I:%M %p"),
-)
+# print(
+#     "Civil begin:",
+#     datetime.fromtimestamp(twilight["civil_begin"], tz=timezone.utc)
+#     .astimezone(ZoneInfo("America/New_York"))
+#     .strftime("%I:%M %p"),
+# )
+# print(
+#     "Sunrise    :",
+#     datetime.fromtimestamp(twilight["sunrise"], tz=timezone.utc)
+#     .astimezone(ZoneInfo("America/New_York"))
+#     .strftime("%I:%M %p"),
+# )
+# print(
+#     "Sunset     :",
+#     datetime.fromtimestamp(twilight["sunset"], tz=timezone.utc)
+#     .astimezone(ZoneInfo("America/New_York"))
+#     .strftime("%I:%M %p"),
+# )
+# print(
+#     "Civil end :",
+#     datetime.fromtimestamp(twilight["civil_end"], tz=timezone.utc)
+#     .astimezone(ZoneInfo("America/New_York"))
+#     .strftime("%I:%M %p"),
+# )
 
-print("-" * 50)
+# print("-" * 50)
 
-# Start at midnight UTC
-start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
-end = start + timedelta(days=1)
+# # Start at midnight UTC
+# start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+# end = start + timedelta(days=1)
 
-t = start
-while t < end:
-    epoch = int(t.timestamp())
+# t = start
+# while t < end:
+#     epoch = int(t.timestamp())
 
-    brightness = compute_brightness(epoch, twilight)
+#     brightness = compute_brightness(epoch, twilight)
 
-    label = ""
-    if twilight["civil_begin"] <= epoch <= twilight["sunrise"]:
-        label = "↗ fade-in (civil → sunrise)"
-    elif twilight["sunset"] <= epoch <= twilight["civil_end"]:
-        label = "↘ fade-out (sunset → civil)"
-    elif twilight["sunrise"] < epoch < twilight["sunset"]:
-        label = "☀ day"
-    else:
-        label = "🌙 night"
+#     label = ""
+#     if twilight["civil_begin"] <= epoch <= twilight["sunrise"]:
+#         label = "↗ fade-in (civil → sunrise)"
+#     elif twilight["sunset"] <= epoch <= twilight["civil_end"]:
+#         label = "↘ fade-out (sunset → civil)"
+#     elif twilight["sunrise"] < epoch < twilight["sunset"]:
+#         label = "☀ day"
+#     else:
+#         label = "🌙 night"
 
-    ny_time = t.astimezone(ZoneInfo("America/New_York")).strftime("%I:%M:%S %p")
-    print(f"{ny_time} | brightness {brightness:3d} {label}")
+#     ny_time = t.astimezone(ZoneInfo("America/New_York")).strftime("%I:%M:%S %p")
+#     print(f"{ny_time} | brightness {brightness:3d} {label}")
 
-    t += timedelta(seconds=20)
+#     t += timedelta(seconds=20)
 
 
 # %%

@@ -1,0 +1,6 @@
+[Unit]
+Description=Stop LED Matrix
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl stop ledmatrix.service

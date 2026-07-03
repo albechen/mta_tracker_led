@@ -1,0 +1,10 @@
+[Unit]
+Description=Start LED Matrix every morning
+
+[Timer]
+OnCalendar=*-*-* 07:00:00
+Persistent=true
+Unit=ledmatrix.service
+
+[Install]
+WantedBy=timers.target

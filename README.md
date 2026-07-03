@@ -1,5 +1,14 @@
 # RASPBERRY PI SETUP
 
+## Install using install.ssh
+
+```bash
+git clone https://github.com/albechen/mta_tracker_led.git
+cd mta_tracker_led
+bash install.sh
+sudo reboot
+```
+
 ## INTIAL SET UP
 
 ### RASPBERRY PI IMAGER

@@ -1,0 +1,10 @@
+[Unit]
+Description=Stop LED Matrix every night
+
+[Timer]
+OnCalendar=*-*-* 00:00:00
+Persistent=true
+Unit=ledmatrix-stop.service
+
+[Install]
+WantedBy=timers.target

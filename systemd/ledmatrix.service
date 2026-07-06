@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=root
+User=trackthemta
 WorkingDirectory=/home/trackthemta/mta_tracker_led
 ExecStart=/usr/bin/python3 /home/trackthemta/mta_tracker_led/main.py
 

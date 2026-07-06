@@ -14,7 +14,6 @@ echo "blacklist snd_soc_core" | sudo tee -a /etc/modprobe.d/blacklist-alsa.conf
 echo "blacklist snd_pcm" | sudo tee -a /etc/modprobe.d/blacklist-alsa.conf
 
 sudo rmmod snd_bcm2835
-sudo nano /boot/firmware/config.txt dtparam=audio=off
 
 
 echo "===== Installing packages ====="
@@ -27,6 +26,8 @@ cython3
 
 
 echo "===== Downloading RGB Matrix library ====="
+
+sudo apt-get install python-dev-is-python3 python3-pil cython3
 
 if [ ! -d "$HOME/rpi-rgb-led-matrix" ]; then
     git clone https://github.com/hzeller/rpi-rgb-led-matrix.git "$HOME/rpi-rgb-led-matrix"

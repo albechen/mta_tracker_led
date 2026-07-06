@@ -3,6 +3,8 @@
 ## Install using install.ssh
 
 ```bash
+sudo apt update && sudo apt full-upgrade -y
+sudo apt install -y git
 git clone https://github.com/albechen/mta_tracker_led.git
 cd mta_tracker_led
 bash install.sh
@@ -21,7 +23,7 @@ PYTHON 3.11 recc
 
 ```bash
 sudo apt update && sudo apt full-upgrade -y
-sudo raspi-config - vnc on
+# sudo raspi-config - vnc on
 
 sudo sed -i 's/^dtparam=audio=.*/dtparam=audio=off/' /boot/firmware/config.txt
 echo "blacklist snd_bcm2835" | sudo tee /etc/modprobe.d/blacklist-alsa.conf

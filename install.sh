@@ -2,8 +2,10 @@
 set -e
 
 echo "===== Give acess everything ====="
-sudo chown -R root:root /home/trackthemta/mta_tracker_led
-sudo chmod -R 777 /home/trackthemta/mta_tracker_led/assets/led_matrix_render
+sudo mkdir -p /home/trackthemta/mta_tracker_led/assets/led_matrix_render
+sudo chown -R root:root /home/trackthemta/mta_tracker_led/assets
+sudo chmod -R 755 /home/trackthemta/mta_tracker_led/assets
+sudo chmod 777 /home/trackthemta/mta_tracker_led/assets/led_matrix_render
 
 echo "===== Updating system ====="
 sudo apt update
@@ -63,17 +65,38 @@ sudo python3 -m pip install requests pillow gtfs-realtime-bindings --break-syste
 python -c "import requests; print('requests OK')"
 python -c "from google.transit import gtfs_realtime_pb2; print('gtfs OK')"
 
-echo "Installing systemd files..."
 
-sudo cp systemd/* /etc/systemd/system/
+echo "===== Installing temperature watchdog ====="
+
+sudo apt install -y bc
+sudo cp scripts/temp_shutdown.sh /usr/local/bin/
+sudo chmod +x /usr/local/bin/temp_shutdown.sh
+
+
+echo "===== Installing systemd files ====="
+
+sudo cp systemd/*.service /etc/systemd/system/
+sudo cp systemd/*.timer /etc/systemd/system/
+
+
+echo "===== Reloading systemd ====="
 
 sudo systemctl daemon-reload
+
+
+echo "===== Enabling services ====="
 
 sudo systemctl enable ledmatrix.service
 sudo systemctl enable ledmatrix-start.timer
 sudo systemctl enable ledmatrix-stop.timer
 
+# Optional temperature protection
+sudo systemctl enable temp-shutdown.timer
+
+
 echo ""
+echo "======================================"
 echo "Installation complete."
 echo "Reboot with:"
 echo "sudo reboot"
+echo "======================================"

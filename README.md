@@ -1,5 +1,14 @@
 # RASPBERRY PI SETUP
 
+## INTIAL SET UP
+
+### RASPBERRY PI IMAGER
+
+FONTS: <https://www.cl.cam.ac.uk/~mgk25/ucs-fonts.html>
+imager to 64bit and bookworm version
+PYTHON 3.11 recc
+Use 2.0 mirco sd card adapter
+
 ## Install using install.ssh
 
 ```bash
@@ -10,14 +19,6 @@ cd mta_tracker_led
 bash install.sh
 sudo reboot
 ```
-
-## INTIAL SET UP
-
-### RASPBERRY PI IMAGER
-
-FONTS: <https://www.cl.cam.ac.uk/~mgk25/ucs-fonts.html>
-imager to 64bit and bookworm version
-PYTHON 3.11 recc
 
 ### UPDATE AND CONFIGURE
 
@@ -379,4 +380,10 @@ Stop or diable
 ```bash
 sudo systemctl stop ledmatrix.service
 sudo systemctl disable ledmatrix.service
+```
+
+Check temp
+
+```bash
+journalctl -b -1
 ```

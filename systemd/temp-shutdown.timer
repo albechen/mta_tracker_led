@@ -1,0 +1,10 @@
+[Unit]
+Description=Temperature safety check every minute
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=3min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

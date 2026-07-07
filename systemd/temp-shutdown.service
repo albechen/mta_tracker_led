@@ -1,0 +1,6 @@
+[Unit]
+Description=Check Raspberry Pi temperature
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/temp_shutdown.sh

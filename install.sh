@@ -6,6 +6,7 @@ sudo apt update
 sudo apt full-upgrade -y
 
 echo "===== Mute Audio ====="
+grep -q 'isolcpus=3' /boot/firmware/cmdline.txt || sudo sed -i 's/$/ isolcpus=3/' /boot/firmware/cmdline.txt
 
 sudo sed -i 's/^dtparam=audio=.*/dtparam=audio=off/' /boot/firmware/config.txt
 echo "blacklist snd_bcm2835" | sudo tee /etc/modprobe.d/blacklist-alsa.conf
@@ -51,7 +52,8 @@ echo "===== Installing Python packages ====="
 
 cd "$HOME/mta_tracker_led"
 
-pip3 install -r requirements.txt --break-system-packages
+# pip3 install -r requirements.txt --break-system-packages
+sudo python3 -m pip install requests pillow gtfs-realtime-bindings --break-system-packages
 
 python -c "import requests; print('requests OK')"
 python -c "from google.transit import gtfs_realtime_pb2; print('gtfs OK')"
@@ -70,3 +72,5 @@ echo ""
 echo "Installation complete."
 echo "Reboot with:"
 echo "sudo reboot"
+
+C:\Users\Albert\Documents\GitHub\mta_tracker_led\systemd\ledmatrix.service

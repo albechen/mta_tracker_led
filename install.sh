@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+echo "===== Give acess everything ====="
+sudo chown -R root:root /home/trackthemta/mta_tracker_led
+sudo chmod -R 777 /home/trackthemta/mta_tracker_led/assets/led_matrix_render
+
 echo "===== Updating system ====="
 sudo apt update
 sudo apt full-upgrade -y

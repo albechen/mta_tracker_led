@@ -346,7 +346,7 @@ Stream of print statments (Ctrl+C to exit):
 sudo systemctl stop ledmatrix.service
 cd ~/mta_tracker_led
 sudo git pull
-cd
+cd "$HOME/mta_tracker_led"
 sudo cp systemd/* /etc/systemd/system/
 
 sudo systemctl daemon-reload

@@ -347,6 +347,14 @@ sudo systemctl stop ledmatrix.service
 cd ~/mta_tracker_led
 sudo git pull
 cd
+sudo cp systemd/* /etc/systemd/system/
+
+sudo systemctl daemon-reload
+
+sudo systemctl enable ledmatrix.service
+sudo systemctl enable ledmatrix-start.timer
+sudo systemctl enable ledmatrix-stop.timer
+
 sudo systemctl start ledmatrix.service
 sudo journalctl -u ledmatrix.service -f
 

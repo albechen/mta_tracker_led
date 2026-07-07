@@ -36,8 +36,8 @@ fi
 cd "$HOME/rpi-rgb-led-matrix"
 
 make
-pip install . --break-system-packages
-
+sudo pip3 install . --break-system-packages
+sudo python3 -c "from rgbmatrix import RGBMatrix; print('OK')"
 
 echo "===== Installing Python Binds ====="
 

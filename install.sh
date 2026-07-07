@@ -7,6 +7,7 @@ sudo apt full-upgrade -y
 
 echo "===== Mute Audio ====="
 grep -q 'isolcpus=3' /boot/firmware/cmdline.txt || sudo sed -i 's/$/ isolcpus=3/' /boot/firmware/cmdline.txt
+grep -q 'isolcpus=3' /boot/cmdline.txt || sudo sed -i 's/$/ isolcpus=3/' /boot/cmdline.txt
 
 sudo sed -i 's/^dtparam=audio=.*/dtparam=audio=off/' /boot/firmware/config.txt
 echo "blacklist snd_bcm2835" | sudo tee /etc/modprobe.d/blacklist-alsa.conf
@@ -72,5 +73,3 @@ echo ""
 echo "Installation complete."
 echo "Reboot with:"
 echo "sudo reboot"
-
-C:\Users\Albert\Documents\GitHub\mta_tracker_led\systemd\ledmatrix.service

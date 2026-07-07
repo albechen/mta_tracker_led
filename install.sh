@@ -79,6 +79,21 @@ sudo cp systemd/*.service /etc/systemd/system/
 sudo cp systemd/*.timer /etc/systemd/system/
 
 
+echo "===== Configuring journal limits ====="
+
+sudo mkdir -p /etc/systemd/journald.conf.d
+
+sudo tee /etc/systemd/journald.conf.d/mta-led.conf > /dev/null <<EOF
+[Journal]
+Storage=persistent
+SystemMaxUse=50M
+SystemMaxFileSize=5M
+MaxRetentionSec=1day
+EOF
+
+sudo systemctl restart systemd-journald
+
+
 echo "===== Reloading systemd ====="
 
 sudo systemctl daemon-reload
@@ -89,8 +104,6 @@ echo "===== Enabling services ====="
 sudo systemctl enable ledmatrix.service
 sudo systemctl enable ledmatrix-start.timer
 sudo systemctl enable ledmatrix-stop.timer
-
-# Optional temperature protection
 sudo systemctl enable temp-shutdown.timer
 
 

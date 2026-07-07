@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MAX_TEMP=80
+MAX_TEMP=75
 
 TEMP=$(vcgencmd measure_temp | grep -o '[0-9.]*')
 

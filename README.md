@@ -386,4 +386,26 @@ Check temp
 
 ```bash
 journalctl -b -1
+journalctl -t temp_shutdown.sh
+journalctl | grep Temperature
+```
+
+```bash
+# ==========================================
+# Proper Raspberry Pi Shutdown
+# ==========================================
+#
+# Always shut down Linux cleanly before removing power.
+#
+# Stop the LED service first:
+sudo systemctl stop ledmatrix.service
+
+# Shut down the Raspberry Pi safely:
+sudo shutdown -h now
+
+#
+# Wait until the green activity light stops blinking
+# before removing power.
+#
+# ==========================================
 ```
